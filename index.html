@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>景区门票购票导航</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f2f5f9;
+    color: #1f2d3d;
+    line-height: 1.6;
+    padding-bottom: 40px;
+  }
+  .hero {
+    background: linear-gradient(135deg, #0f8a6d 0%, #1a6fc4 100%);
+    color: #fff;
+    padding: 38px 24px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 85% 15%, rgba(255,255,255,.18), transparent 45%);
+  }
+  .hero h1 { font-size: 24px; font-weight: 700; letter-spacing: .5px; position: relative; }
+  .hero p { font-size: 13px; opacity: .9; margin-top: 8px; position: relative; }
+
+  .notice {
+    margin: 16px;
+    background: #fff7e6;
+    border: 1px solid #ffe08a;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #8a6d1f;
+  }
+  .notice b { color: #d48806; }
+
+  .container { padding: 0 16px; }
+
+  .group { margin-bottom: 22px; }
+  .group-title {
+    display: flex; align-items: center;
+    font-size: 17px; font-weight: 700;
+    color: #1f2d3d; margin-bottom: 12px;
+  }
+  .group-title .icon {
+    width: 32px; height: 32px; border-radius: 9px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 16px; margin-right: 10px; flex-shrink: 0;
+  }
+  .g1 .icon { background: #0f8a6d; }
+  .g2 .icon { background: #2f9e6e; }
+  .g3 .icon { background: #e8593c; }
+  .g4 .icon { background: #1a6fc4; }
+  .g5 .icon { background: #7b4fb5; }
+
+  .link {
+    display: block;
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px 16px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #1f2d3d;
+    box-shadow: 0 2px 10px rgba(31,45,61,.06);
+    position: relative;
+    transition: transform .15s;
+  }
+  .link:active { transform: scale(.985); }
+  .link .name { font-size: 15px; font-weight: 600; }
+  .link .desc { font-size: 12px; color: #8a97a8; margin-top: 3px; }
+  .link .arrow {
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+    color: #c3cdd8; font-size: 18px;
+  }
+  .tag {
+    display: inline-block; font-size: 10px; padding: 2px 7px;
+    border-radius: 5px; margin-left: 6px; vertical-align: middle;
+    font-weight: 500;
+  }
+  .tag-official { background: #e6f7ef; color: #0f8a6d; }
+  .tag-ota { background: #eaf2fd; color: #1a6fc4; }
+  .tag-info { background: #f3eeff; color: #7b4fb5; }
+
+  .footer {
+    text-align: center; font-size: 11px; color: #a8b2bf;
+    margin-top: 30px; line-height: 1.9;
+  }
+  .footer a { color: #8a97a8; }
+
+  /* 微信内提示遮罩 */
+  .wx-tip {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.82);
+    z-index: 9999;
+    padding: 40px 26px;
+    text-align: center;
+    color: #fff;
+  }
+  .wx-tip .phone {
+    width: 110px; height: 200px; margin: 0 auto 26px;
+    border: 3px solid #fff; border-radius: 20px;
+    position: relative;
+  }
+  .wx-tip .phone::before {
+    content: "···"; position: absolute; top: 8px; left: 50%;
+    transform: translateX(-50%); letter-spacing: 3px; font-size: 14px;
+  }
+  .wx-tip .phone::after {
+    content: "↑"; position: absolute; top: 60px; left: 50%;
+    transform: translateX(-50%); font-size: 46px; color: #ffd166;
+  }
+  .wx-tip h3 { font-size: 19px; margin-bottom: 12px; }
+  .wx-tip p { font-size: 14px; color: #d8dee6; line-height: 1.8; }
+  .wx-tip .dots { margin-top: 26px; font-size: 13px; color: #8f9aa6; }
+  .wx-tip .close-btn {
+    margin-top: 22px; display: inline-block;
+    padding: 10px 28px; border: 1px solid #fff; border-radius: 22px;
+    color: #fff; font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🏔️ 景区门票购票导航</h1>
+  <p>官方渠道 · 授权 OTA · 实名预约 · 放心购买</p>
+</div>
+
+<div class="notice">
+  <b>购票提醒：</b>青城山—都江堰实行全网络实名预约、分时限流，可预约 15 日内门票；阿坝州景区「非预约不出行」，均须刷身份证入园。请通过下方<b>官方或授权渠道</b>购票，切勿轻信外围拉客或非授权低价票。
+</div>
+
+<div class="container">
+
+  <!-- 1. 都江堰 -->
+  <div class="group g1">
+    <div class="group-title"><span class="icon">🌊</span>都江堰景区门票</div>
+    <a class="link" href="https://www.djy517.com/online.html?channelCode=mpyd" target="_blank">
+      <div class="name">都江堰景区 官方在线预订 <span class="tag tag-official">官方</span></div>
+      <div class="desc">都江堰旅游门户网 · 成人票 80 元 · 学生 40 元 · 身份证实名</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://ticket.djy517.com/" target="_blank">
+      <div class="name">青城山—都江堰 购票平台 <span class="tag tag-official">官方</span></div>
+      <div class="desc">都江堰 / 青城前山 / 青城后山 一键选景区购票</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E9%83%BD%E6%B1%9F%E5%A0%B0%E6%99%AF%E5%8C%BA&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">都江堰门票 · 携程 <span class="tag tag-ota">授权OTA</span></div>
+      <div class="desc">门票 + 讲解 + 观光车，套餐可选</div>
+      <span class="arrow">›</span>
+    </a>
+  </div>
+
+  <!-- 2. 青城山 -->
+  <div class="group g2">
+    <div class="group-title"><span class="icon">⛰️</span>青城山景区门票</div>
+    <a class="link" href="https://ticket.djy517.com/" target="_blank">
+      <div class="name">青城前山 / 后山 官方购票 <span class="tag tag-official">官方</span></div>
+      <div class="desc">前山 80 元 · 索道单程 35 元 / 往返 60 元 · 前山山门唯一入口</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E9%9D%92%E5%9F%8E%E5%B1%B1&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">青城山门票 · 携程 <span class="tag tag-ota">授权OTA</span></div>
+      <div class="desc">前山门票 + 索道 + 观光车组合</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ly.com/scenery_2/#/pages/list/list?cityId=317&keyword=%E9%9D%92%E5%9F%8E%E5%B1%B1" target="_blank">
+      <div class="name">青城山门票 · 同程旅行 <span class="tag tag-ota">授权OTA</span></div>
+      <div class="desc">当日可订 · 电子凭证</div>
+      <span class="arrow">›</span>
+    </a>
+  </div>
+
+  <!-- 3. 彭州 -->
+  <div class="group g3">
+    <div class="group-title"><span class="icon">🌸</span>彭州市景区介绍</div>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E4%B8%B9%E6%99%AF%E5%B1%B1&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">丹景山 · 携程景点 <span class="tag tag-info">介绍</span></div>
+      <div class="desc">牡丹之乡 · 彭州丹景山景区门票与攻略</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E7%99%BD%E9%B9%BF%E9%95%87&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">白鹿音乐小镇 · 携程 <span class="tag tag-info">介绍</span></div>
+      <div class="desc">中法风情小镇 · 免门票（演出另行购票）</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E5%A4%AA%E9%98%B3%E6%B9%BE&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">太阳湾景区 · 携程 <span class="tag tag-info">介绍</span></div>
+      <div class="desc">龙门山国家地质公园 · 避暑徒步</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E5%BD%AD%E5%B7%9E&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">彭州景点一站式查询 · 携程 <span class="tag tag-info">合集</span></div>
+      <div class="desc">彭州全部景区、门票、攻略汇总</div>
+      <span class="arrow">›</span>
+    </a>
+  </div>
+
+  <!-- 4. 阿坝州 -->
+  <div class="group g4">
+    <div class="group-title"><span class="icon">🏞️</span>阿坝州各大景区门票</div>
+    <a class="link" href="https://www.abatour.com" target="_blank">
+      <div class="name">阿坝旅游网 · 官方 <span class="tag tag-official">官方</span></div>
+      <div class="desc">政府授权平台 · 九寨沟/黄龙/四姑娘山/达古冰川 预约</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://www.jiuzhai.com" target="_blank">
+      <div class="name">九寨沟景区 · 官方网站 <span class="tag tag-official">官方</span></div>
+      <div class="desc">门票 280 元含观光车 · 旺季限 4.1 万人次/天 · 非预约不出行</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://www.huanglong.com" target="_blank">
+      <div class="name">黄龙景区 · 官方网站 <span class="tag tag-official">官方</span></div>
+      <div class="desc">门票 170 元 · 索道上行另计 · 可在线预订</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E4%B9%9D%E5%AF%A8%E6%B2%9F&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">九寨沟/黄龙门票 · 携程 <span class="tag tag-ota">授权OTA</span></div>
+      <div class="desc">门票 + 观光车 + 千古情演出 组合套餐</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ly.com/scenery_2/#/pages/list/list?cityId=322&keyword=%E4%B9%9D%E5%AF%A8%E6%B2%9F" target="_blank">
+      <div class="name">阿坝州景区 · 同程旅行 <span class="tag tag-ota">授权OTA</span></div>
+      <div class="desc">九寨沟、黄龙、四姑娘山、达古冰川门票汇总</div>
+      <span class="arrow">›</span>
+    </a>
+  </div>
+
+  <!-- 5. 演艺场 -->
+  <div class="group g5">
+    <div class="group-title"><span class="icon">🎭</span>演艺场门票购买</div>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E4%B9%9D%E5%AF%A8%E5%8D%83%E5%8F%A4%E6%83%85&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">九寨千古情 · 携程 <span class="tag tag-ota">授权OTA</span></div>
+      <div class="desc">观众席约 198 元起 · 豪华沙发席 380 元</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E8%9C%80%E9%A3%8E%E9%9B%85%E9%9F%B5&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">蜀风雅韵（川剧变脸）· 携程 <span class="tag tag-ota">授权OTA</span></div>
+      <div class="desc">成都传统川剧 · 变脸 / 吐火 / 滚灯</div>
+      <span class="arrow">›</span>
+    </a>
+    <a class="link" href="https://m.ctrip.com/webapp/tnt/list?allianceid=6032594&sid=170732500&pagetype=city&citytype=dt&keyword=%E6%88%8F%E6%9B%B2&pshowcode=Ticket2&sepopup=205&inpopup=true" target="_blank">
+      <div class="name">成都演艺/戏曲艺票 · 携程合集 <span class="tag tag-info">合集</span></div>
+      <div class="desc">成都及周边演出、音乐会、话剧门票汇总</div>
+      <span class="arrow">›</span>
+    </a>
+  </div>
+
+</div>
+
+<div class="footer">
+  提示：请通过景区官方公众号「青城山都江堰」「悦游都江堰」或授权 OTA 购票<br>
+  咨询电话：都江堰 028-96526 ｜ 九寨沟 0837-7769999 ｜ 阿坝旅游网 400-088-6969<br>
+  页面由景区官方公开信息整理，票价与开放时间以景区当日公告为准
+</div>
+
+<!-- 微信内打开提示：引导用浏览器打开 -->
+<div class="wx-tip" id="wxTip">
+  <div class="phone"></div>
+  <h3>请点击右上角 · 在浏览器打开</h3>
+  <p>当前在微信内置浏览器中，部分外链可能无法直接跳转。<br>点右上角「···」菜单，选择「在浏览器打开」即可正常购票。</p>
+  <div class="dots">已了解，可关闭此提示继续浏览</div>
+  <div class="close-btn" onclick="document.getElementById('wxTip').style.display='none'">我知道了</div>
+</div>
+
+<script>
+// 检测微信内置浏览器，弹出引导提示
+(function(){
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf('micromessenger') !== -1) {
+    // 延迟 1.2 秒弹出，避免遮挡首屏
+    setTimeout(function(){ document.getElementById('wxTip').style.display='block'; }, 1200);
+  }
+})();
+</script>
+</body>
+</html>
