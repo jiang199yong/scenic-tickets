@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>特色商品</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#f5f7f6;color:#222}
+header{background:#1f6f5c;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+header a{color:#fff;text-decoration:none;font-size:14px}
+.wrap{padding:24px 16px;max-width:1100px;margin:0 auto}
+h2{color:#1f6f5c;margin-bottom:4px}
+.sub{color:#888;font-size:13px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.card img{width:100%;height:140px;object-fit:cover}
+.card .body{padding:12px}
+.card h3{font-size:15px;margin-bottom:4px}
+.card p{font-size:13px;color:#666}
+</style>
+</head>
+<body>
+
+<header>
+  <span>特色商品</span>
+  <a href="index.html">← 返回首页</a>
+</header>
+
+<div class="wrap">
+  <h2 id="cityName"></h2>
+  <p class="sub" id="cityDesc"></p>
+  <div class="grid" id="list"></div>
+</div>
+
+<script>
+const GOODS = {
+  djy: {
+    name:'都江堰市 · 特色商品',
+    desc:'青城道茶 · 猕猴桃 · 马椅子 · 文创',
+    items:[
+      {name:'青城道茶', desc:'青城四绝之一，红、飘雪、苦丁等', img:'https://picsum.photos/300/200?random=40'},
+      {name:'都江堰猕猴桃', desc:'国家地理标志，鲜果及深加工', img:'https://picsum.photos/300/200?random=41'},
+      {name:'马椅子', desc:'百年代竹艺非遗，纯手工', img:'https://picsum.photos/300/200?random=42'},
+      {name:'青都礼物文创', desc:'镇水神兽、熊猫灯等', img:'https://picsum.photos/300/200?random=43'},
+      {name:'洞天乳酒', desc:'青城山养生特色酒', img:'https://picsum.photos/300/200?random=44'},
+      {name:'青城山老腊肉', desc:'传统工艺，风味醇厚', img:'https://picsum.photos/300/200?random=45'}
+    ]
+  },
+  pz: {
+    name:'彭州市 · 特色商品',
+    desc:'白瓷 · 糕点 · 板鸭 · 肥酒',
+    items:[
+      {name:'彭州白瓷', desc:'宋代美学，温润如玉', img:'https://picsum.photos/300/200?random=50'},
+      {name:'蜀中糖门糕点', desc:'非遗技艺，芝麻糕三剑客', img:'https://picsum.photos/300/200?random=51'},
+      {name:'九尺板鸭', desc:'卤香浓郁，彭州老味道', img:'https://picsum.photos/300/200?random=52'},
+      {name:'天彭肥酒', desc:'明清古法，老字号', img:'https://picsum.photos/300/200?random=53'},
+      {name:'帝诺巧克力', desc:'入选"礼遇四川"伴手礼', img:'https://picsum.photos/300/200?random=54'},
+      {name:'牡丹文创', desc:'国风配饰，实用美观', img:'https://picsum.photos/300/200?random=55'}
+    ]
+  },
+  aba: {
+    name:'阿坝州 · 特色商品',
+    desc:'牦牛肉 · 羌绣 · 高原蜂蜜 · 苹果',
+    items:[
+      {name:'红原牦牛肉', desc:'大草原原生态，地理标志', img:'https://picsum.photos/300/200?random=60'},
+      {name:'牦牛奶粉', desc:'原产地，醇香营养', img:'https://picsum.photos/300/200?random=61'},
+      {name:'阿坝蜂蜜', desc:'百花蜜，自然花香', img:'https://picsum.photos/300/200?random=62'},
+      {name:'汶川羌绣', desc:'国家级非遗刺绣', img:'https://picsum.photos/300/200?random=63'},
+      {name:'小金苹果', desc:'地理标志水果，香甜脆', img:'https://picsum.photos/300/200?random=64'},
+      {name:'高原野生菌', desc:'黑水原产地，山野美味', img:'https://picsum.photos/300/200?random=65'}
+    ]
+  }
+};
+
+const params = new URLSearchParams(location.search);
+const city = params.get('city') || 'djy';
+const data = GOODS[city] || GOODS.djy;
+
+document.getElementById('cityName').textContent = data.name;
+document.getElementById('cityDesc').textContent = data.desc;
+document.getElementById('list').innerHTML = data.items.map(i => `
+  <div class="card">
+    <img src="${i.img}" alt="${i.name}">
+    <div class="body">
+      <h3>${i.name}</h3>
+      <p>${i.desc}</p>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>

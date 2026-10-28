@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>景区购票</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#f5f7f6;color:#222}
+header{background:#1f6f5c;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+header a{color:#fff;text-decoration:none;font-size:14px}
+.wrap{padding:24px 16px;max-width:1100px;margin:0 auto}
+h2{color:#1f6f5c;margin-bottom:4px}
+.sub{color:#888;font-size:13px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.card img{width:100%;height:150px;object-fit:cover}
+.card .body{padding:14px}
+.card h3{font-size:16px;margin-bottom:4px}
+.card .price{color:#c0392b;font-weight:700;margin:6px 0}
+.card .price small{color:#888;font-weight:400;font-size:12px}
+.card p{font-size:13px;color:#666;margin-bottom:10px}
+.btn{display:inline-block;background:#1f6f5c;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;text-decoration:none}
+.back{background:#fff;color:#1f6f5c;border:1px solid #1f6f5c;padding:6px 14px;border-radius:6px;text-decoration:none;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+  <span id="pageTitle">景区购票</span>
+  <a href="index.html">← 返回首页</a>
+</header>
+
+<div class="wrap">
+  <h2 id="cityName"></h2>
+  <p class="sub" id="cityDesc"></p>
+  <div class="grid" id="list"></div>
+</div>
+
+<script>
+// ===== 数据配置（只改这里就能换内容）=====
+const DATA = {
+  djy: {
+    name: '都江堰市 · 景区购票',
+    desc: '古堰流水 · 青城幽山 · 熊猫萌趣',
+    items: [
+      {name:'都江堰景区', price:'80元起', desc:'延续两千年的水利工程，含离堆、鱼嘴、安澜索桥', img:'https://picsum.photos/400/300?random=10', link:'https://www.djy517.com/'},
+      {name:'青城前山', price:'80元', desc:'道教发源地，天师洞、上清宫', img:'https://picsum.photos/400/300?random=11', link:'https://www.djy517.com/'},
+      {name:'青城后山', price:'20元起', desc:'泰安古镇、飞瀑流泉，徒步天堂', img:'https://picsum.photos/400/300?random=12', link:'https://www.djy517.com/'},
+      {name:'熊猫谷', price:'55元', desc:'野化训练大熊猫，亲子首选', img:'https://picsum.photos/400/300?random=13', link:'https://www.djy517.com/'},
+      {name:'青城道温泉', price:'138元起', desc:'依山而建的康养温泉', img:'https://picsum.photos/400/300?random=14', link:'https://www.djy517.com/'},
+      {name:'成都热雪奇迹', price:'238元起', desc:'四季滑雪，都江堰文旅城内', img:'https://picsum.photos/400/300?random=15', link:'https://www.djy517.com/'}
+    ]
+  },
+  pz: {
+    name: '彭州市 · 景区购票',
+    desc: '龙门山秘境 · 白鹿小镇 · 牡丹花乡',
+    items: [
+      {name:'丹景山', price:'10元', desc:'千年牡丹花乡', img:'https://picsum.photos/400/300?random=20', link:'#'},
+      {name:'白鹿音乐小镇', price:'免费', desc:'法式风情建筑群', img:'https://picsum.photos/400/300?random=21', link:'#'},
+      {name:'太阳湾风景区', price:'40元起', desc:'龙门山宝山村，峡谷风光', img:'https://picsum.photos/400/300?random=22', link:'#'},
+      {name:'海窝子古镇', price:'免费', desc:'古蜀发源地，湔江河谷', img:'https://picsum.photos/400/300?random=23', link:'#'},
+      {name:'回龙沟', price:'免费', desc:'龙门山地质公园，野生猴群', img:'https://picsum.photos/400/300?random=24', link:'#'},
+      {name:'龙兴寺', price:'免费', desc:'彭州标志性佛教圣地', img:'https://picsum.photos/400/300?random=25', link:'#'}
+    ]
+  },
+  aba: {
+    name: '阿坝州 · 景区购票',
+    desc: '九寨黄龙 · 四姑娘山 · 藏羌风情',
+    items: [
+      {name:'九寨沟', price:'280元(含观光车)', desc:'童话世界，翠海叠瀑', img:'https://picsum.photos/400/300?random=30', link:'https://www.abatour.com/'},
+      {name:'黄龙', price:'170元', desc:'人间瑶池，钙化彩池', img:'https://picsum.photos/400/300?random=31', link:'https://www.abatour.com/'},
+      {name:'四姑娘山', price:'150元(双桥沟)', desc:'东方圣山，户外天堂', img:'https://picsum.photos/400/300?random=32', link:'https://www.abatour.com/'},
+      {name:'达古冰川', price:'190元', desc:'现代冰川奇观', img:'https://picsum.photos/400/300?random=33', link:'https://www.abatour.com/'},
+      {name:'毕棚沟', price:'139元起', desc:'红叶彩林、雪山温泉', img:'https://picsum.photos/400/300?random=34', link:'https://www.abatour.com/'},
+      {name:'卧龙大熊猫苑', price:'85元', desc:'世界自然遗产中的熊猫王国', img:'https://picsum.photos/400/300?random=35', link:'https://www.abatour.com/'}
+    ]
+  }
+};
+
+// ===== 读取 URL 参数并渲染 =====
+const params = new URLSearchParams(location.search);
+const city = params.get('city') || 'djy';
+const data = DATA[city] || DATA.djy;
+
+document.getElementById('pageTitle').textContent = data.name;
+document.getElementById('cityName').textContent = data.name;
+document.getElementById('cityDesc').textContent = data.desc;
+
+document.getElementById('list').innerHTML = data.items.map(i => `
+  <div class="card">
+    <img src="${i.img}" alt="${i.name}">
+    <div class="body">
+      <h3>${i.name}</h3>
+      <div class="price">${i.price}</div>
+      <p>${i.desc}</p>
+      <a class="btn" href="${i.link}" target="_blank" rel="noopener">立即购票</a>
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>
