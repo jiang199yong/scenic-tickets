@@ -7,20 +7,21 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:system-ui,sans-serif;background:#f5f7f6;color:#222}
-header{background:#1f6f5c;color:#fff;padding:14px 20px;font-size:18px;font-weight:700}
-.hero{background:linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)),url('https://picsum.photos/1600/600?random=1') center/cover;height:40vh;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center}
-.hero h1{font-size:clamp(22px,5vw,38px)}
+header{background:#1f6f5c;color:#fff;padding:14px 20px;font-size:18px;font-weight:700;position:sticky;top:0;z-index:10}
+.hero{background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),url('images/siguniang.jpg') center/cover;height:42vh;min-height:260px;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center}
+.hero h1{font-size:clamp(22px,5vw,38px);text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.hero p{margin-top:8px;opacity:.95;font-size:clamp(13px,2vw,16px)}
 .wrap{padding:30px 16px;max-width:1100px;margin:0 auto}
 h2{color:#1f6f5c;margin-bottom:16px;font-size:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
 .card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none;color:inherit;transition:transform .2s}
-.card:hover{transform:translateY(-4px)}
-.card img{width:100%;height:130px;object-fit:cover}
-.card .info{padding:12px}
-.card .info h3{font-size:16px;margin-bottom:4px}
+.card:hover{transform:translateY(-5px)}
+.card img{width:100%;height:150px;object-fit:cover;display:block}
+.card .info{padding:14px}
+.card .info h3{font-size:16px;margin-bottom:5px}
 .card .info p{font-size:13px;color:#666}
-.card .info span{color:#1f6f5c;font-weight:600;font-size:13px}
-footer{text-align:center;padding:20px;color:#999;font-size:12px}
+.card .info span{display:inline-block;margin-top:8px;color:#1f6f5c;font-weight:600;font-size:13px}
+footer{text-align:center;padding:22px;color:#999;font-size:12px}
 </style>
 </head>
 <body>
@@ -30,7 +31,7 @@ footer{text-align:center;padding:20px;color:#999;font-size:12px}
 <section class="hero">
   <div>
     <h1>山水相连 · 文旅同行</h1>
-    <p style="margin-top:8px;opacity:.9">都江堰 · 彭州 · 阿坝州 · 特色好物</p>
+    <p>都江堰 · 彭州 · 阿坝州 · 特色好物</p>
   </div>
 </section>
 
@@ -39,7 +40,7 @@ footer{text-align:center;padding:20px;color:#999;font-size:12px}
   <div class="grid">
 
     <a class="card" href="tickets.html?city=djy">
-      <img src="https://picsum.photos/400/300?random=2" alt="">
+      <img src="images/nanqiao.jpg" alt="都江堰配图-宝瓶口">
       <div class="info">
         <h3>都江堰市</h3>
         <p>古堰流水 · 青城幽山</p>
@@ -48,7 +49,7 @@ footer{text-align:center;padding:20px;color:#999;font-size:12px}
     </a>
 
     <a class="card" href="tickets.html?city=pz">
-      <img src="https://picsum.photos/400/300?random=3" alt="">
+      <img src="images/longxingsi.jpg" alt="彭州配图-龙门山">
       <div class="info">
         <h3>彭州市</h3>
         <p>龙门山 · 白鹿小镇</p>
@@ -57,7 +58,7 @@ footer{text-align:center;padding:20px;color:#999;font-size:12px}
     </a>
 
     <a class="card" href="tickets.html?city=aba">
-      <img src="https://picsum.photos/400/300?random=4" alt="">
+      <img src="images/jiuzhai.jpg" alt="阿坝州配图-九寨沟高山湖泊">
       <div class="info">
         <h3>阿坝州</h3>
         <p>九寨黄龙 · 四姑娘山</p>
@@ -65,8 +66,8 @@ footer{text-align:center;padding:20px;color:#999;font-size:12px}
       </div>
     </a>
 
-    <a class="card" href="goods.html?city=djy">
-      <img src="https://picsum.photos/400/300?random=5" alt="">
+    <a class="card" href="https://mp.weixin.qq.com/s/7JmawV5XEFIZpwAzyxZqpg" target="_blank" rel="noopener">
+      <img src="images/fupin.jpg" alt="特色商品配图-黑猪肉午餐肉罐头">
       <div class="info">
         <h3>特色商品</h3>
         <p>三地好物 · 带走的风景</p>
