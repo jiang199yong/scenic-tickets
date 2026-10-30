@@ -5,144 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>四川文旅精选</title>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    background-color: #f5f7fa;
-    color: #333;
+    background-color: #f5f7fa; color: #333;
   }
-  /* 吸顶头部 */
   header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: #2c3e50;
-    color: #fff;
-    padding: 15px 20px;
-    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    background: #2c3e50; color: #fff;
+    padding: 15px 20px; text-align: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
-  header h1 {
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-  }
-  /* 横幅区域 */
+  header h1 { font-size: 1.5rem; letter-spacing: 2px; }
   .hero {
     min-height: 280px;
     background: url('images/jiuzhai.jpg') center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
-    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; color: #fff; position: relative;
   }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-  }
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    padding: 0 15px;
-  }
-  .hero h2 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  }
-  .hero p {
-    font-size: 1.1rem;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-  }
-  /* 4宫格容器 - 上2下2布局 */
+  .hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+  .hero-content { position: relative; z-index: 1; padding: 0 15px; }
+  .hero h2 { font-size: 2rem; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+  .hero p { font-size: 1.1rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+  /* 4宫格：上2下2 */
   .grid-container {
-    max-width: 900px;
-    margin: 25px auto;
-    padding: 0 15px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 每行2列 */
-    gap: 18px;
+    max-width: 900px; margin: 25px auto; padding: 0 15px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
   }
-  /* 卡片样式 */
   .card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
+    background: #fff; border-radius: 12px; overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
   }
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-  .card-img {
-    width: 100%;
-    height: 160px; /* 统一图片高度，视觉更整齐 */
-    object-fit: cover;
-    display: block;
-  }
-  .card-body {
-    padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #2c3e50;
-  }
-  .card-desc {
-    font-size: 0.9rem;
-    color: #666;
-    line-height: 1.5;
-    margin-bottom: 12px;
-  }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .card-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+  .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .card-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; color: #2c3e50; }
+  .card-desc { font-size: 0.9rem; color: #666; line-height: 1.5; margin-bottom: 12px; }
   .card-link {
-    display: inline-block;
-    align-self: flex-start;
-    padding: 6px 14px;
-    background: #3498db;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    transition: background 0.2s;
+    display: inline-block; align-self: flex-start;
+    padding: 6px 14px; background: #3498db; color: #fff;
+    text-decoration: none; border-radius: 20px; font-size: 0.85rem;
+    transition: background 0.2s; cursor: pointer; border: none;
   }
-  .card-link:hover {
-    background: #2980b9;
-  }
-  /* 移动端适配 */
+  .card-link:hover { background: #2980b9; }
+
   @media (max-width: 600px) {
-    .grid-container {
-      gap: 12px;
-      padding: 0 10px;
-    }
-    .card-img {
-      height: 130px;
-    }
-    .hero h2 {
-      font-size: 1.6rem;
-    }
+    .grid-container { gap: 12px; padding: 0 10px; }
+    .card-img { height: 130px; }
+    .hero h2 { font-size: 1.6rem; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>四川文旅精选</h1>
-</header>
+<header><h1>四川文旅精选</h1></header>
 
 <div class="hero">
   <div class="hero-content">
@@ -152,31 +71,32 @@
 </div>
 
 <div class="grid-container">
-  <!-- 第1格：都江堰 -->
+
+  <!-- 第1格：都江堰（微信内跳转，外部引导公众号） -->
   <div class="card">
     <img src="images/nanqiao.jpg" alt="都江堰宝瓶口" class="card-img">
     <div class="card-body">
       <div>
         <div class="card-title">都江堰</div>
-        <div class="card-desc">千年水利奇迹，宝瓶口碧波湍急，感受古人智慧。</div>
+        <div class="card-desc">千年水利奇迹，宝瓶口碧波湍急，感受古人智慧。门票需实名预约。</div>
       </div>
-      <a href="#" class="card-link">探索详情</a>
+      <a href="javascript:;" class="card-link" onclick="openDJY()">景区购票</a>
     </div>
   </div>
 
-  <!-- 第2格：彭州 -->
+  <!-- 第2格：彭州（去哪儿双景区选择） -->
   <div class="card">
     <img src="images/longxingsi.jpg" alt="彭州龙门山" class="card-img">
     <div class="card-body">
       <div>
         <div class="card-title">彭州 · 龙门山</div>
-        <div class="card-desc">峡谷晨曦，蜿蜒湔江，尽享自然山水与村落静谧。</div>
+        <div class="card-desc">丹景山、太阳湾等景区票务，峡谷晨曦尽享自然山水。</div>
       </div>
-      <a href="#" class="card-link">探索详情</a>
+      <a href="javascript:;" class="card-link" onclick="openPZ()">景区购票</a>
     </div>
   </div>
 
-  <!-- 第3格：阿坝州（已替换为九寨沟高山湖泊图） -->
+  <!-- 第3格：阿坝州（小程序唤起兜底） -->
   <div class="card">
     <img src="images/jiuzhai.jpg" alt="九寨沟高山湖泊" class="card-img">
     <div class="card-body">
@@ -184,11 +104,11 @@
         <div class="card-title">阿坝州 · 九寨黄龙</div>
         <div class="card-desc">湛蓝湖光倒映雪山林海，童话世界般的绝美风光。</div>
       </div>
-      <a href="#" class="card-link">探索详情</a>
+      <a href="javascript:;" class="card-link" onclick="openAbaMiniProgram()">进入阿坝旅游</a>
     </div>
   </div>
 
-  <!-- 第4格：特色商品 -->
+  <!-- 第4格：特色商品（去惠购甄选小程序唤起兜底） -->
   <div class="card">
     <img src="images/fupin.jpg" alt="黑猪火腿午餐肉" class="card-img">
     <div class="card-body">
@@ -196,10 +116,79 @@
         <div class="card-title">特色商品</div>
         <div class="card-desc">黑猪火腿午餐肉，80%肉含量，大块肉粒看得见。</div>
       </div>
-      <a href="#" class="card-link">了解商品</a>
+      <a href="javascript:;" class="card-link" onclick="openHuiGou()">进入去惠购甄选</a>
     </div>
   </div>
+
 </div>
+
+<script>
+// 第1格：都江堰 —— 微信内跳购票页，外部引导公众号
+function openDJY() {
+  var url = "https://ticket.djy517.com/ticket-qdv4/";
+  var ua = navigator.userAgent || "";
+  if (/MicroMessenger/i.test(ua)) {
+    window.location.href = url;
+  } else {
+    alert(
+      "该购票页面需在微信中打开。\n\n" +
+      "请在微信中操作：\n" +
+      "1. 搜索并关注「青城山都江堰」公众号\n" +
+      "2. 底部菜单「网络购票」→ 选择都江堰景区\n" +
+      "3. 选日期、票种，实名预约支付\n\n" +
+      "（都江堰门票需提前预约，现场不售票）"
+    );
+  }
+}
+
+// 第2格：彭州 —— 去哪儿双景区选择
+function openPZ() {
+  var danjingshan = "https://touch.piao.qunar.com/touch/detail.htm?id=261832924";
+  var taiyangwan = "https://touch.piao.qunar.com/touch/detail_193619.html";
+  var choice = confirm(
+    "彭州景区购票（去哪儿网）\n\n" +
+    "点击「确定」→ 丹景山门票\n" +
+    "点击「取消」→ 太阳湾风景区门票"
+  );
+  if (choice) {
+    window.open(danjingshan, "_blank", "noopener");
+  } else {
+    window.open(taiyangwan, "_blank", "noopener");
+  }
+}
+
+// 第3格：阿坝州 —— 小程序唤起兜底
+function openAbaMiniProgram() {
+  var miniLink = "#小程序://阿坝旅游/Y7V84pZW7iDeXzo";
+  window.location.href = miniLink;
+  setTimeout(function () {
+    alert(
+      "未能自动打开小程序。\n\n" +
+      "请在微信中操作：\n" +
+      "1. 打开微信 → 点击顶部搜索栏\n" +
+      "2. 输入「阿坝旅游」\n" +
+      "3. 进入小程序即可\n\n" +
+      "（也可将本页分享到微信中打开，直接跳转）"
+    );
+  }, 1200);
+}
+
+// 第4格：去惠购甄选 —— 小程序唤起兜底（办法C）
+function openHuiGou() {
+  var miniLink = "#小程序://去惠购甄选/8lvSAuLZLjG0lxo";
+  window.location.href = miniLink;
+  setTimeout(function () {
+    alert(
+      "未能自动打开小程序。\n\n" +
+      "请在微信中操作：\n" +
+      "1. 打开微信 → 点击顶部搜索栏\n" +
+      "2. 输入「去惠购甄选」\n" +
+      "3. 进入小程序即可\n\n" +
+      "（也可把本页面分享到微信里打开，直接跳转）"
+    );
+  }, 1200);
+}
+</script>
 
 </body>
 </html>
